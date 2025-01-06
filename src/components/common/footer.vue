@@ -3,7 +3,7 @@
       <div class="footer-content">
         <div class="footer-info">
           <p class="copyright">© {{ currentYear }} 在线视频直播系统. All rights reserved.</p>
-          <p class="contact">联系我: hjxwz123@126.com</p>
+          <p class="contact">联系我: </p>
         </div>
       </div>
     </footer>

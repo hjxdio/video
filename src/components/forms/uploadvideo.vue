@@ -60,7 +60,7 @@
         </n-form-item>
         <n-form-item label="封面地址" path="poster">
           <div>
-            <n-upload :show-file-list="false" action="https://api.tmzjy.cn/video/upload/index"
+            <n-upload :show-file-list="false" action="https://"
               @finish="handleFinishpost" response-type="json" @before-upload="beforeUploadpost">
               <n-upload-dragger>
                 <n-text style="font-size: 16px">

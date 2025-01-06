@@ -67,7 +67,7 @@ const scrollToBottom = async () => {
 };
 
 const connectWebSocket = () => {
-  ws.value = new WebSocket(`ws://140.143.186.184:2346`);
+  ws.value = new WebSocket(`ws://`);
   ws.value.onerror = (error) => {
     ElMessage.error('错误:', error);
   };

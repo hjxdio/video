@@ -9,7 +9,7 @@
     
   </el-dialog>
 
-  <n-upload action="https://api.tmzjy.cn/video/upload/index" @finish="handleFinish" response-type="json"
+  <n-upload action="https://" @finish="handleFinish" response-type="json"
     @before-upload="beforeUpload">
     <n-upload-dragger>
       <div style="margin-bottom: 12px">

@@ -19,7 +19,7 @@
               <n-upload
                 :show-file-list="false"
                 accept="image/*"
-                action="https://api.tmzjy.cn/video/upload/uploadava"
+                action=""
                 response-type="json"
                 :max="1"
                 @finish="handleAvatarChange"

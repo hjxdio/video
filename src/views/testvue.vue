@@ -78,7 +78,7 @@ onMounted(async () => {
       name:roomdata.roomname,
       user:roomdata.username,
       id:liveid.value,
-      url:'http://39.107.142.61:8080/live/'+ roomdata.url + '.flv',
+      url:'http://xxx:8080/live/'+ roomdata.url + '.flv',
       post:roomdata.post,
       description:roomdata.roomdes,
       avatar:avatar

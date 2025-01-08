@@ -14,13 +14,11 @@ interface ApiResponse {
 export const addAuthHeaders = (config: Config): Config => {
   const userStore = useUserStore();
   const token = userStore.token;
-  const id = userStore.userId;
   return {
     ...config,
     headers: {
       ...config.headers,
-      token,
-      id
+      Authorization: `Bearer ${token}`,
     }
   };
 };

@@ -6,8 +6,48 @@
     </el-menu-item>
 
     <el-menu-item class="search-wrapper">
-      <el-input v-model="searchinput" class="search-input" placeholder="输入搜索内容">
-      </el-input>
+      <el-popover
+        :visible="showHistory"
+        placement="bottom-start"
+        :width="300"
+        trigger="click"
+        @show="showHistory = true"
+        @hide="showHistory = false"
+      >
+        <template #reference>
+          <el-input 
+            v-model="searchinput" 
+            class="search-input" 
+            placeholder="输入搜索内容"
+            @focus="showHistory = true"
+            @blur="handleBlur"
+            @keyup.enter="search"
+          >
+          </el-input>
+        </template>
+        
+        <div v-if="searchHistoryStore.history.length > 0">
+          <div class="history-header">
+            <span>搜索历史</span>
+            <el-button type="text" @click="searchHistoryStore.clearHistory()">
+              清空历史
+            </el-button>
+          </div>
+          <div class="history-item" v-for="item in searchHistoryStore.history" :key="item">
+            <span class="history-text" @click="useHistory(item)">{{ item }}</span>
+            <el-button 
+              type="text" 
+              class="delete-btn"
+              @click="searchHistoryStore.removeHistory(item)"
+            >
+              <el-icon><Delete /></el-icon>
+            </el-button>
+          </div>
+        </div>
+        <div v-else class="no-history">
+          暂无搜索历史
+        </div>
+      </el-popover>
       <div style="width: 10px;"></div>
       <el-button type="primary" round @click="search">搜索</el-button>
     </el-menu-item>
@@ -109,15 +149,17 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import login from '@/components/forms/login.vue';
 import { getUnreadCount } from '@/api/api';
+import { useSearchHistoryStore } from '@/stores/search';
 
+const searchHistoryStore = useSearchHistoryStore();
 const searchinput = ref('');
 let userStore = useUserStore();
 const showModal = ref(false);
-
 const route = useRoute();
 const router = useRouter();
 const isLogin = ref(true)
 const activeIndex = ref('home');
+const showHistory = ref(false);
 
 watch(route, (newRoute) => {
   activeIndex.value = newRoute.name;
@@ -149,14 +191,30 @@ function loginModel() {
   showModal.value = true;
 }
 function search() {
-  router.push({ name: 'search', params: { name: searchinput.value } });
+  if (searchinput.value.trim()) {
+    searchHistoryStore.addHistory(searchinput.value.trim());
+    router.push({ name: 'search', params: { name: searchinput.value } });
+    showHistory.value = false;
+  }
 }
 function aboutus() {
   router.push({ name: 'about' })
 }
+function useHistory(keyword) {
+  searchinput.value = keyword;
+  search();
+  showHistory.value = false;
+}
+function handleBlur() {
+  setTimeout(() => {
+    showHistory.value = false;
+  }, 200);
+}
 onMounted(async () => {
-  const unread=await getUnreadCount()
-  userStore.setUnReadMsg(unread.data)
+  if(userStore.islogin){
+    const unread=await getUnreadCount()
+    userStore.setUnReadMsg(unread.data)
+  }
 })
 </script>
 <style scoped>
@@ -233,5 +291,39 @@ onMounted(async () => {
 .centered-button {
   display: block;
   margin: 0 auto;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.history-item:hover {
+  background-color: var(--el-fill-color-light);
+}
+
+.history-text {
+  flex: 1;
+}
+
+.delete-btn {
+  padding: 2px;
+}
+
+.no-history {
+  padding: 20px;
+  text-align: center;
+  color: var(--el-text-color-secondary);
 }
 </style>

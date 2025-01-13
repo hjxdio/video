@@ -5,6 +5,7 @@
                 :rules="rules"
                 label-placement="left" 
                 label-width="80"
+                @keyup.enter="checkUser"
                 size="large">
             <n-form-item label="用户名" path="user.name">
                 <n-input v-model:value="formValue.user.name" 
@@ -46,6 +47,7 @@
                           block
                           attr-type="button"
                           :loading="logining"
+                          @keyup.enter="checkUser"
                           @click="checkUser">
                     {{ logining ? '登录中...' : '登录' }}
                 </n-button>
@@ -113,7 +115,6 @@ async function getcaptcha() {
   }
 }
 async function checkUser(e) {
-  e.preventDefault();
   formRef.value?.validate(async (errors) => {
     if (!errors) {
       const hashedCaptcha = md5(md5(formValue.captcha));

@@ -26,7 +26,7 @@
                                 </div>
                                 <p class="description">{{ liveRoom.roomdes }}</p>
                                 <div v-if="liveRoom.islive === 1">
-                                    <p>推流地址：rtmp://39.107.142.61/live/{{ liveRoom.url }}</p>
+                                    <p>推流地址：{{ uploadUrl }}/{{ liveRoom.url }}</p>
                                 </div>
                             </div>
                             <div class="live-actions">
@@ -60,7 +60,7 @@
                                             暂无封面图片
                                         </div>
                                         <n-upload :show-file-list="false" accept="image/*"
-                                            action="https://api.tmzjy.cn/video/upload/uploadava" response-type="json"
+                                            :action="uploadUrlpost" response-type="json"
                                             :max="1" @finish="handleCoverChange">
                                             <n-button size="small" class="upload-btn">
                                                 上传封面
@@ -98,21 +98,22 @@ import { getLiveRoom, createLiveRoom, updateLiveRoom,startLiveRoom,stopLiveRoom 
 import { useUserStore } from '@/stores/user';
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router';
 
+const uploadUrl = import.meta.env.VITE_RTMP_URL;
+const uploadUrlpost = import.meta.env.VITE_API_URL + '/video/upload/uploadava';
+const router=useRouter()
 const userStore = useUserStore();
 const liveRoom = ref(null);
-
 const formRef = ref(null)
 const submitting = ref(false)
 const coverUrl = ref('')
-
 const isRoom = ref(false);
 const activeTab = ref('mylive');
 const formValue = reactive({
     title: '',
     description: '',
 })
-
 const rules = {
     title: {
         required: true,
@@ -205,8 +206,6 @@ const handleSubmit = (e) => {
         }
     })
 }
-
-
 onMounted(async () => {
     liveRoom.value = await getLiveRoom(userStore.userId);
     if (liveRoom.value.data) {

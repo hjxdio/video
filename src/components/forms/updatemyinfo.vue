@@ -19,7 +19,7 @@
               <n-upload
                 :show-file-list="false"
                 accept="image/*"
-                action="https://api.tmzjy.cn/video/upload/uploadava"
+                :action="uploadUrl"
                 response-type="json"
                 :max="1"
                 @finish="handleAvatarChange"
@@ -99,7 +99,7 @@
   const submitting = ref(false)
   const avatarUrl = ref(userStore.avatar || '')
   const defaultAvatarUrl = 'path/to/default/avatar.png'
-
+  const uploadUrl = import.meta.env.VITE_API_URL + '/video/upload/uploadava';
   const formValue = reactive({
     userId: String(userStore.userId),
     username: userStore.user,

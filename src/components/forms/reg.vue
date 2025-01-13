@@ -1,6 +1,6 @@
 <template>
     <div class="reg-container">
-        <n-form ref="formRef" :model="formValue" :rules="rules" label-placement="left" label-width="90" size="large">
+        <n-form ref="formRef" :model="formValue" :rules="rules" label-placement="left" label-width="90" size="large" @keyup.enter="handleRegister">
             <n-form-item label="用户名" path="user.name">
                 <n-input v-model:value="formValue.user.name" placeholder="输入用户名" :autofocus="true">
                     <template #prefix>
@@ -128,7 +128,6 @@ async function getcaptcha() {
 }
 
 async function handleRegister(e) {
-    e.preventDefault();
     formRef.value?.validate(async (errors) => {
         if (!errors) {
             if(await checkChinese(formValue.user.name)){

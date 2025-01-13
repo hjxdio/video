@@ -90,7 +90,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
   const result = await checklogin();
-  if (to.name !== 'join' && to.name !== 'home' && to.name !== 'video' && to.name !== 'about' && to.name !== 'watch' && (result === 1)) {
+  if (to.name!=='search' && to.name !== 'join' && to.name !== 'home' && to.name !== 'video' && to.name !== 'about' && to.name !== 'watch' && (result === 1)) {
     next({ name: 'home' });
     ElMessage.error("你还没有登录")
     userStore.logout()

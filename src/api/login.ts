@@ -8,7 +8,8 @@ interface UserData {
 
 export async function checklogin(): Promise<number> {
   const store = useUserStore();
-  
+
+  const token = store.token;
   if (Date.now() - store.time > 3600000) {
     console.log(Date.now(), store.time);
     
@@ -19,8 +20,7 @@ export async function checklogin(): Promise<number> {
 
     const res = await request.post("/userInfo/index", null, {
       headers: {
-        'id': userData.id,
-        'token': userData.token,
+        Authorization: `Bearer ${token}`,
       }
     });
 

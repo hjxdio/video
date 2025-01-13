@@ -41,7 +41,7 @@ export const startLiveRoom = async (data: any): Promise<any> => {
 
 export const getLiveList = async (): Promise<any> => {
   try {
-    const res = await request.get('video/liveroom/list/');
+    const res = await request.get('video/liveroom/list');
     return res.data;
   } catch (error) {
     console.error('获取直播列表失败:', error);
@@ -51,7 +51,7 @@ export const getLiveList = async (): Promise<any> => {
 
 export const getWeb = async (): Promise<any> => {
   try {
-    const res = await request.get('video/baseinformation/index/');
+    const res = await request.get('video/baseinformation/index');
     return res.data;
   } catch (error) {
     console.error('获取失败:', error);

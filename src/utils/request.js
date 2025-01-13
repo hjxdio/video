@@ -13,7 +13,7 @@ switch(status){
 }
 
 const instance = axios.create({
-    baseURL:'https://api.tmzjy.cn/',
+    baseURL:import.meta.env.VITE_API_BASE_URL,
     //baseURL:'/api',
     timeout: 15000,
 })

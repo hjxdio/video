@@ -9,7 +9,7 @@
     
   </el-dialog>
 
-  <n-upload action="https://api.tmzjy.cn/video/upload/index" @finish="handleFinish" response-type="json"
+  <n-upload :action="uploadUrl" @finish="handleFinish" response-type="json"
     @before-upload="beforeUpload">
     <n-upload-dragger>
       <div style="margin-bottom: 12px">
@@ -58,9 +58,9 @@
         <n-form-item label="视频描述" path="description">
           <n-input type="textarea" v-model:value="formValue.description" placeholder="输入视频描述" />
         </n-form-item>
-        <n-form-item label="封面地址" path="poster">
+        <n-form-item label="视频封面" path="poster">
           <div>
-            <n-upload :show-file-list="false" action="https://api.tmzjy.cn/video/upload/index"
+            <n-upload :show-file-list="false" :action="uploadUrlpost"
               @finish="handleFinishpost" response-type="json" @before-upload="beforeUploadpost">
               <n-upload-dragger>
                 <n-text style="font-size: 16px">
@@ -90,6 +90,8 @@ import { uploadVideo} from '@/api/api';
 import { formatFileSize } from '@/utils/tools';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
+const uploadUrl = import.meta.env.VITE_API_URL + '/video/upload/index';
+const uploadUrlpost = import.meta.env.VITE_API_URL + '/video/upload/uploadava';
 const ok = ref(false);
 const isupload = ref(false)
 const formRef = ref(null)
@@ -112,6 +114,7 @@ const rules = reactive({
     trigger: 'blur'
   }
 })
+
 const handleFinish = async ({
   file,
   event
@@ -121,13 +124,17 @@ const handleFinish = async ({
   console.log(filedata)
 }
 async function beforeUpload(data) {
+  const maxSize = import.meta.env.VITE_UPLOAD_SIZE_LIMIT * 1024 * 1024; // 转换为字节
+  if (data.file.size > maxSize) {
+    ElMessage.error(`文件大小不能超过 ${import.meta.env.VITE_UPLOAD_SIZE_LIMIT}MB`);
+    return false;
+  }
   if (data.file.file?.type !== 'video/mp4') {
     ElMessage.error('只能上传mp4格式');
     return false
   }
   return true
 }
-
 const handleFinishpost = async ({
   file,
   event
@@ -144,7 +151,6 @@ async function beforeUploadpost(data) {
   }
   return true
 }
-
 async function upload(e) {
   ok.value = true
   e.preventDefault();

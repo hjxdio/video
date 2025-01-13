@@ -2,7 +2,7 @@
   <div class="launch-container">
     <n-card title="关于" class="launch-card">
       <template #header-extra>
-        <n-text type="info">Version 2.1.5</n-text>
+        <n-text type="info">Version {{ version }}</n-text>
       </template>
 
       <div class="about-content">
@@ -43,6 +43,10 @@
     </n-card>
   </div>
 </template>
+
+<script setup>
+const version = import.meta.env.VITE_APP_VERSION;
+</script>
 
 <style scoped>
 

@@ -99,7 +99,7 @@
   const submitting = ref(false)
   const avatarUrl = ref(userStore.avatar || '')
   const defaultAvatarUrl = 'path/to/default/avatar.png'
-  const uploadUrl = import.meta.env.VITE_API_URL + '/video/upload/uploadava';
+  const uploadUrl = import.meta.env.VITE_API_BASE_URL + '/video/upload/uploadava';
   const formValue = reactive({
     userId: String(userStore.userId),
     username: userStore.user,

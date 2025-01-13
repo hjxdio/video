@@ -90,8 +90,8 @@ import { uploadVideo} from '@/api/api';
 import { formatFileSize } from '@/utils/tools';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
-const uploadUrl = import.meta.env.VITE_API_URL + '/video/upload/index';
-const uploadUrlpost = import.meta.env.VITE_API_URL + '/video/upload/uploadava';
+const uploadUrl = import.meta.env.VITE_API_BASE_URL + '/video/upload/index';
+const uploadUrlpost = import.meta.env.VITE_API_BASE_URL + '/video/upload/uploadava';
 const ok = ref(false);
 const isupload = ref(false)
 const formRef = ref(null)

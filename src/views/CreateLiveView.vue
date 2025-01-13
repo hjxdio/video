@@ -101,7 +101,7 @@ import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router';
 
 const uploadUrl = import.meta.env.VITE_RTMP_URL;
-const uploadUrlpost = import.meta.env.VITE_API_URL + '/video/upload/uploadava';
+const uploadUrlpost = import.meta.env.VITE_API_BASE_URL + '/video/upload/uploadava';
 const router=useRouter()
 const userStore = useUserStore();
 const liveRoom = ref(null);
